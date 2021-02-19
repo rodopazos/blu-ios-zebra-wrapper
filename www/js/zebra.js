@@ -51,14 +51,16 @@ class Zebra {
             ^FO${scheme.xOrigin},${scheme.yOrigin}
             ^AD${scheme.font},${scheme.fontHeight},${scheme.fontWidth}
             ^FD${scheme.data}
+            ^FS
         `;
     }
 
     buildBarcodeCmd(scheme) {
         return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^AD${scheme.font},${scheme.fontHeight},${scheme.fontWidth}
-            ^FD${scheme.data}
+            ^FO50,50
+            ^B3N,N,100,Y,N
+            ^FD123456
+            ^FS
         `;
     }
 }

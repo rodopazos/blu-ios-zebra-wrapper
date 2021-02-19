@@ -20,12 +20,13 @@ class App {
             data: 'Jose Marti el mejor !!!'
         };
         const txtCmd = `^XA${this.zebra.buildTextCmd(txtCmdScheme)}^XZ`;
+        const barCmd = `^XA${this.zebra.buildBarcodeCmd(txtCmdScheme)}^XZ`;
 
         this.zebra.searchForPrinters()
             .then(printers => {
                 alert("searchForPrinters-done" + JSON.stringify(printers));
 
-                this.zebra.broadcastCommand(txtCmd)
+                this.zebra.broadcastCommand(barCmd)
                     .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
                     .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
             })
