@@ -1,17 +1,31 @@
 class App {
     constructor() {
-        this.zebra = new Zebra();
+        alert("constructor");
+        this._zebra = new Zebra();
     }
 
     init() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        alert("init");
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     }
 
     onDeviceReady() {
+        alert("onDeviceReady");
         document.getElementById('deviceready').classList.add('ready');
-    }
 
+        this._zebra.searchForPrinters()
+            .then(printers => alert(JSON.stringify(printers)))
+            .catch(error => alert(JSON.stringify(error)));
+    }
 }
+
+// ------------------------------------------------
+//                      Main
+// ------------------------------------------------
+let app = new App();
+
+app.init();
+
 
 
 

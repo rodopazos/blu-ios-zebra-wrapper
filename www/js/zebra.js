@@ -14,7 +14,7 @@ class Zebra {
                 this._connectedPrinters = printers;
                 resolve(printers);
             }, error => {
-                this.connectedPrinters = [];
+                this._connectedPrinters = [];
                 reject(error);
             });
         });

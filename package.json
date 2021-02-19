@@ -1,6 +1,6 @@
 {
-  "name": "io.cordova.hellocordova",
-  "displayName": "HelloCordova",
+  "name": "io.blu.zebraw",
+  "displayName": "zebraw",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -13,7 +13,6 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "cordova-android": "^9.0.0",
     "cordova-plugin-whitelist": "^1.3.4",
     "cordova-zebra-printer": "git+https://github.com/adriangrana/cordova-zebra-printer.git"
   },
@@ -23,8 +22,10 @@
       "cordova-zebra-printer": {}
     },
     "platforms": [
-      "android"
+      "ios"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "cordova-ios": "^5.1.1"
+  }
 }
