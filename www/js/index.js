@@ -16,6 +16,11 @@ class App {
         this._zebra.searchForPrinters()
             .then(printers => alert(JSON.stringify(printers)))
             .catch(error => alert(JSON.stringify(error)));
+
+        this._zebra.broadcastCommand()
+            .then(printers => alert(JSON.stringify(printers)))
+            .catch(error => alert(JSON.stringify(error)));
+
     }
 }
 
