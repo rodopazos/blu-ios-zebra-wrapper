@@ -39,7 +39,7 @@ class Zebra {
             let broadcast = [];
 
             this._connectedPrinters.forEach(p => {
-                broadcast = [...this.sendCommand(p.serialNumber, cmd)];
+                broadcast.push(this.sendCommand(p.serialNumber, cmd));
             });
             return Promise.all(broadcast);
         }
