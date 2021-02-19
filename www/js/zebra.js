@@ -27,9 +27,9 @@ class Zebra {
     sendCommand(printerSerialNumber, cmd) {
         return new Promise((resolve, reject) => {
             zebra.write(printerSerialNumber, cmd, result => {
-                resolve(result);
+                resolve({ printerSerialNumber, result });
             }, error => {
-                reject(error);
+                reject({ printerSerialNumber, error });
             })
         });
     }
@@ -37,20 +37,12 @@ class Zebra {
     broadcastCommand(cmd) {
         if (this._connectedPrinters.length > 0) {
             let broadcast = [];
-            let rejected = [];
 
             this._connectedPrinters.forEach(p => {
-                broadcast = [...new Promise((resolve, reject) => {
-                    zebra.write(p.serialNumber, cmd, result => {
-                        resolve({ printer: p, result });
-                        resolved.push({ printer: p, result });
-                    }, error => {
-                        reject({ printer: p, error });
-                        rejected.push({ printer: p, error });
-                    });
-                })];
+                broadcast = [...this.sendCommand(p.serialNumber, cmd)];
             });
-            return Promise.all(broadcast).then(result => resolve(result)).catch(() => resolve(rejected));
+            return Promise.all(broadcast);
         }
+        return Promise.reject("Not connected printers");
     }
 }
