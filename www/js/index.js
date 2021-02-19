@@ -1,11 +1,6 @@
 class App {
     constructor() {
         this._zebra = new Zebra();
-        alert(0)
-    }
-
-    init() {
-        alert(1)
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     }
 
@@ -15,6 +10,32 @@ class App {
 
     onDeviceReady() {
         document.getElementById('deviceready').classList.add('ready');
+
+        const command = `
+            ^XA
+            ^FO50,50
+            ^B8N,100,Y,N
+            ^FD1234567
+            ^FS
+            ^XZ
+        `;
+        this.zebra.searchForPrinters()
+            .then(printers => {
+                alert("searchForPrinters-done" + JSON.stringify(printers));
+
+                // this.zebra.sendCommand(this.zebra.connectedPrinters[0].serialNumber, command)
+                //     .then(result => alert("sendCommand-done" + JSON.stringify(result)))
+                //     .catch(error => alert("sendCommand-error" + JSON.stringify(error)));
+
+                this.zebra.broadcastCommand(command)
+                    .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
+                    .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
+            })
+            .catch(error => alert("searchForPrinters-error" + JSON.stringify(error)));
+
+
+
+
     }
 }
 
@@ -22,25 +43,6 @@ class App {
 //                      Main
 // ------------------------------------------------
 const app = new App();
-
-const command = `
-    ^XA
-    ^FO50,50
-    ^B8N,100,Y,N
-    ^FD1234567
-    ^FS
-    ^XZ
-`;
-
-app.init();
-
-app.zebra.searchForPrinters()
-    .then(printers => alert("searchForPrinters-done" + JSON.stringify(printers)))
-    .catch(error => alert("searchForPrinters-error" + JSON.stringify(error)));
-
-app.zebra.broadcastCommand(command)
-    .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
-    .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
 
 
 
