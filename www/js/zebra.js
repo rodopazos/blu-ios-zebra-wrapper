@@ -45,4 +45,20 @@ class Zebra {
         }
         return Promise.reject("Not connected printers");
     }
+
+    buildTextCmd(scheme) {
+        return `
+            ^FO${scheme.xOrigin},${scheme.yOrigin}
+            ^AD${scheme.font},${scheme.fontHeight},${scheme.fontWidth}
+            ^FD${scheme.data}
+        `;
+    }
+
+    buildBarcodeCmd(scheme) {
+        return `
+            ^FO${scheme.xOrigin},${scheme.yOrigin}
+            ^AD${scheme.font},${scheme.fontHeight},${scheme.fontWidth}
+            ^FD${scheme.data}
+        `;
+    }
 }

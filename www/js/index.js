@@ -11,19 +11,21 @@ class App {
     onDeviceReady() {
         document.getElementById('deviceready').classList.add('ready');
 
-        const command = `
-            ^XA
-            ^FO50,50
-            ^ADN,36,20
-            ^FDJose Marti
-            ^FS 
-            ^XZ
-        `;
+        const txtCmdScheme = {
+            xOrigin: 50,
+            yOrigin: 50,
+            font: 'N',
+            fontHeight: 36,
+            fontWidth: 20,
+            data: 'Jose Marti el mejor !!!'
+        };
+        const txtCmd = `^XA${this.zebra.buildTextCmd(txtCmdScheme)}^XZ`;
+
         this.zebra.searchForPrinters()
             .then(printers => {
                 alert("searchForPrinters-done" + JSON.stringify(printers));
 
-                this.zebra.broadcastCommand(command)
+                this.zebra.broadcastCommand(txtCmd)
                     .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
                     .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
             })
