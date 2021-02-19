@@ -14,28 +14,20 @@ class App {
         const command = `
             ^XA
             ^FO50,50
-            ^B8N,100,Y,N
-            ^FD1234567
-            ^FS
+            ^ADN,36,20
+            ^FDJose Marti
+            ^FS 
             ^XZ
         `;
         this.zebra.searchForPrinters()
             .then(printers => {
                 alert("searchForPrinters-done" + JSON.stringify(printers));
 
-                // this.zebra.sendCommand(this.zebra.connectedPrinters[0].serialNumber, command)
-                //     .then(result => alert("sendCommand-done" + JSON.stringify(result)))
-                //     .catch(error => alert("sendCommand-error" + JSON.stringify(error)));
-
                 this.zebra.broadcastCommand(command)
                     .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
                     .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
             })
             .catch(error => alert("searchForPrinters-error" + JSON.stringify(error)));
-
-
-
-
     }
 }
 
