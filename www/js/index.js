@@ -1,6 +1,11 @@
 class App {
     constructor() {
         this._zebra = new Zebra();
+        alert(0)
+    }
+
+    init() {
+        alert(1)
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     }
 
@@ -26,6 +31,8 @@ const command = `
     ^FS
     ^XZ
 `;
+
+app.init();
 
 app.zebra.searchForPrinters()
     .then(printers => alert("searchForPrinters-done" + JSON.stringify(printers)))
