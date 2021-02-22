@@ -15,20 +15,20 @@ class App {
             xOrigin: 50,
             yOrigin: 50,
             font: 'N',
-            fontHeight: 36,
-            fontWidth: 20,
+            fontHeight: 50,
+            fontWidth: 100,
             data: 'Jose Marti'
         };
         const barCmdScheme = {
             xOrigin: 50,
-            yOrigin: 100,
+            yOrigin: 120,
             bar: 'B3',
             barHeight: 50,
             data: '28-01-1853'
         };
         const boxCmdScheme = {
-            xOrigin: 100,
-            yOrigin: 10,
+            xOrigin: 50,
+            yOrigin: 140,
             boxWidth: 200,
             boxHeight: 200
         };
