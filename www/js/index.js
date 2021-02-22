@@ -30,8 +30,7 @@ class App {
             xOrigin: 100,
             yOrigin: 10,
             boxWidth: 200,
-            boxHeight: 200,
-            data: '28-01-1853'
+            boxHeight: 200
         };
         const txtCmd = `^XA${this.zebra.buildTextCmd(txtCmdScheme)}^XZ`;
         const barCmd = `^XA${this.zebra.buildBarcodeCmd(barCmdScheme)}^XZ`;

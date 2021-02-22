@@ -67,7 +67,7 @@ class Zebra {
     buildBoxCmd(scheme) {
         return `
             ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^GB${scheme.boxWidth},N,${scheme.boxHeight},1,B,0
+            ^GB${scheme.boxWidth},${scheme.boxHeight},N,1,B,0
             ^FD${scheme.data}
             ^FS
         `;
