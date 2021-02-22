@@ -35,12 +35,12 @@ class App {
         };
         const txtCmd = `^XA${this.zebra.buildTextCmd(txtCmdScheme)}^XZ`;
         const barCmd = `^XA${this.zebra.buildBarcodeCmd(barCmdScheme)}^XZ`;
-        const boxCmd = `^XA${this.zebra.buildBarcodeCmd(boxCmdScheme)}^XZ`;
+        const boxCmd = `^XA${this.zebra.buildBoxCmd(boxCmdScheme)}^XZ`;
         const allCmd = `
             ^XA
                 ${this.zebra.buildBarcodeCmd(txtCmdScheme)}
                 ${this.zebra.buildBarcodeCmd(barCmdScheme)}
-                ${this.zebra.buildBarcodeCmd(boxCmdScheme)}
+                ${this.zebra.buildBoxCmd(boxCmdScheme)}
             ^XZ`;
 
         this.zebra.searchForPrinters()
