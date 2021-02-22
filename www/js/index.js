@@ -14,7 +14,7 @@ class App {
         const txtCmdScheme = {
             xOrigin: 50,
             yOrigin: 50,
-            font: 'N',
+            font: '0',
             fontHeight: 50,
             fontWidth: 100,
             data: 'Jose Marti'
@@ -28,7 +28,7 @@ class App {
         };
         const boxCmdScheme = {
             xOrigin: 50,
-            yOrigin: 140,
+            yOrigin: 190,
             boxWidth: 200,
             boxHeight: 200
         };
