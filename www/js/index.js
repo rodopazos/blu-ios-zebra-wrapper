@@ -17,16 +17,37 @@ class App {
             font: 'N',
             fontHeight: 36,
             fontWidth: 20,
-            data: 'Jose Marti el mejor !!!'
+            data: 'Jose Marti'
+        };
+        const barCmdScheme = {
+            xOrigin: 50,
+            yOrigin: 100,
+            bar: 'B3',
+            barHeight: 50,
+            data: '28-01-1853'
+        };
+        const boxCmdScheme = {
+            xOrigin: 100,
+            yOrigin: 10,
+            boxWidth: 200,
+            barHeight: 200,
+            data: '28-01-1853'
         };
         const txtCmd = `^XA${this.zebra.buildTextCmd(txtCmdScheme)}^XZ`;
-        const barCmd = `^XA${this.zebra.buildBarcodeCmd(txtCmdScheme)}^XZ`;
+        const barCmd = `^XA${this.zebra.buildBarcodeCmd(barCmdScheme)}^XZ`;
+        const boxCmd = `^XA${this.zebra.buildBarcodeCmd(boxCmdScheme)}^XZ`;
+        const allCmd = `
+            ^XA
+                ${this.zebra.buildBarcodeCmd(txtCmdScheme)}
+                ${this.zebra.buildBarcodeCmd(barCmdScheme)}
+                ${this.zebra.buildBarcodeCmd(boxCmdScheme)}
+            ^XZ`;
 
         this.zebra.searchForPrinters()
             .then(printers => {
                 alert("searchForPrinters-done" + JSON.stringify(printers));
 
-                this.zebra.broadcastCommand(barCmd)
+                this.zebra.broadcastCommand(boxCmd)
                     .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
                     .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
             })
@@ -37,6 +58,7 @@ class App {
 // ------------------------------------------------
 //                      Main
 // ------------------------------------------------
+
 const app = new App();
 
 
