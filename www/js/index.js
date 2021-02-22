@@ -46,7 +46,7 @@ class App {
             .then(printers => {
                 alert("searchForPrinters-done" + JSON.stringify(printers));
 
-                this.zebra.broadcastCommand(boxCmd)
+                this.zebra.broadcastCommand(allCmd)
                     .then(result => alert("broadcastCommand-done" + JSON.stringify(result)))
                     .catch(error => alert("broadcastCommand-error" + JSON.stringify(error)));
             })
