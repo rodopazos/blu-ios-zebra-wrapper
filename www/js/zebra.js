@@ -49,7 +49,7 @@ class Zebra {
     buildTextCmd(scheme) {
         return `
             ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^AD${scheme.font},${scheme.fontHeight},${scheme.fontWidth}
+            ^A${scheme.font},N,${scheme.fontHeight},${scheme.fontWidth}
             ^FD${scheme.data}
             ^FS
         `;
