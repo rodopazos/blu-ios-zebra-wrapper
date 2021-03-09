@@ -55,10 +55,20 @@ class Zebra {
         `;
     }
 
+    buildBlockTextCmd(scheme) {
+        return `
+            ^FO${scheme.xOrigin},${scheme.yOrigin}
+            ^A${scheme.font}N,${scheme.fontHeight},${scheme.fontWidth}
+            ^FB${scheme.fontWidth},b,c,d,e
+            ^FD${scheme.data}
+            ^FS
+        `;
+    }
+
     buildBarcodeCmd(scheme) {
         return `
             ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^${scheme.bar}N,N,${scheme.barHeight},N,N
+            ^BC${scheme.orientation},${scheme.barHeight},N,N,N,N
             ^FD${scheme.data}
             ^FS
         `;
@@ -67,8 +77,23 @@ class Zebra {
     buildBoxCmd(scheme) {
         return `
             ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^GB${scheme.boxWidth},${scheme.boxHeight},N,1,B,0
-            ^FD${scheme.data}
+            ^GB${scheme.boxWidth},${scheme.boxHeight},1,B,0
+            ^FS
+        `;
+    }
+
+    buildLineCmd(scheme) {
+        let gb = `^GB${scheme.size},${scheme.size},1,B,0`;
+
+        if (scheme.orientation === 'H') {
+            gb = `^GB${scheme.size},0,1,B,0`;
+        }
+        if (scheme.orientation === 'V') {
+            gb = `^GB0,${scheme.size},1,B,0`;
+        }
+        return `
+            ^FO${scheme.xOrigin},${scheme.yOrigin}
+            ${gb}
             ^FS
         `;
     }
