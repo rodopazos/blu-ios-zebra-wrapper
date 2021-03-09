@@ -1,6 +1,7 @@
 /*
-    Plugin https://github.com/adriangrana/cordova-zebra-printer.git
-    is nedded.
+    Nedded Plugin:
+        - https://github.com/adriangrana/cordova-zebra-printer.git
+        - https://github.com/don/BluetoothSerial
 */
 
 class Zebra {
@@ -10,6 +11,50 @@ class Zebra {
 
     get connectedPrinters() {
         return this._connectedPrinters;
+    }
+
+    get bluetoothConnection() {
+        return bluetoothSerial;
+    }
+
+    getBluetoothList() {
+        return new Promise((resolve, reject) => {
+            bluetoothSerial.list(res => {
+                resolve(res);
+            }, () => {
+                reject(null);
+            });
+        });
+    }
+
+    bluetoothConnect(mac) {
+        return new Promise((resolve, reject) => {
+            bluetoothSerial.connect(mac, res => {
+                resolve(res);
+            }, error => {
+                reject(error);
+            });
+        });
+    }
+
+    writeBytes(data) {
+        return new Promise((resolve, reject) => {
+            bluetoothSerial.write(data, res => {
+                resolve(res);
+            }, error => {
+                reject(error);
+            });
+        });
+    }
+
+    isBluetoothConnected() {
+        return new Promise((resolve, reject) => {
+            bluetoothSerial.isConnected(() => {
+                resolve(true);
+            }, () => {
+                reject(false);
+            });
+        });
     }
 
     searchForPrinters() {
