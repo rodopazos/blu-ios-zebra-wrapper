@@ -1,7 +1,7 @@
 class App {
     constructor() {
         this._zebra = new Zebra();
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        document.addEventListener('deviceready', this.onDeviceReady1.bind(this), false);
     }
 
     get zebra() {
@@ -49,6 +49,8 @@ class App {
     onDeviceReady1() {
         document.getElementById('deviceready').classList.add('ready');
 
+        cordova.plugins.printer.print(this.getBase64PdfString());
+
         // zebra.scan(printers => {
         //     alert("printers---->" + JSON.stringify(printers));
 
@@ -92,57 +94,57 @@ class App {
         //     reject(error);
         // });
 
-        ble.startScan([], device => {
-            alert("DONE---->" + JSON.stringify(device));
-        }, error => {
-            alert("ERROR---->" + JSON.stringify(error));
-        });
+        // ble.startScan([], device => {
+        //     alert("DONE---->" + JSON.stringify(device));
+        // }, error => {
+        //     alert("ERROR---->" + JSON.stringify(error));
+        // });
 
-        bluetoothle.initialize(device => {
-            alert("bluetoothle-initialize---->" + JSON.stringify(device));
+        // bluetoothle.initialize(device => {
+        //     alert("bluetoothle-initialize---->" + JSON.stringify(device));
 
-            bluetoothle.startScan(device => {
-                alert("startScan-OK---->" + JSON.stringify(device));
-
-
-
-                let base64PDF = this.getBase64PdfString();
-                let binaryPDF = atob(base64PDF);
-                let bytePDFArray = new Uint8Array(binaryPDF.length);
-
-
-                for (let i = 0; i < binaryPDF.length; i++) {
-                    bytePDFArray[i] = binaryPDF.charCodeAt(i);
-                }
-
-                this._zebra.bluetoothConnect('AC3FA4F374F5').then(res => {
-                    alert(JSON.stringify(res));
-
-                    let base64PDF = this.getBase64PdfString();
-                    let binaryPDF = atob(base64PDF);
-                    let bytePDFArray = new Uint8Array(binaryPDF.length);
-
-
-                    for (let i = 0; i < binaryPDF.length; i++) {
-                        bytePDFArray[i] = binaryPDF.charCodeAt(i);
-                    }
-                    this._zebra.writeBytes(bytePDFArray).then(res => {
-                        alert(JSON.stringify(res));
-                    }).catch(error => {
-                        alert(JSON.stringify(error));
-                    });
-                }).catch(error => {
-                    alert(JSON.stringify(error));
-                });
+        //     bluetoothle.startScan(device => {
+        //         alert("startScan-OK---->" + JSON.stringify(device));
 
 
 
+        //         let base64PDF = this.getBase64PdfString();
+        //         let binaryPDF = atob(base64PDF);
+        //         let bytePDFArray = new Uint8Array(binaryPDF.length);
 
 
-            }, error => {
-                alert("startScan-ERROR---->" + JSON.stringify(error));
-            });
-        });
+        //         for (let i = 0; i < binaryPDF.length; i++) {
+        //             bytePDFArray[i] = binaryPDF.charCodeAt(i);
+        //         }
+
+        //         this._zebra.bluetoothConnect('AC3FA4F374F5').then(res => {
+        //             alert(JSON.stringify(res));
+
+        //             let base64PDF = this.getBase64PdfString();
+        //             let binaryPDF = atob(base64PDF);
+        //             let bytePDFArray = new Uint8Array(binaryPDF.length);
+
+
+        //             for (let i = 0; i < binaryPDF.length; i++) {
+        //                 bytePDFArray[i] = binaryPDF.charCodeAt(i);
+        //             }
+        //             this._zebra.writeBytes(bytePDFArray).then(res => {
+        //                 alert(JSON.stringify(res));
+        //             }).catch(error => {
+        //                 alert(JSON.stringify(error));
+        //             });
+        //         }).catch(error => {
+        //             alert(JSON.stringify(error));
+        //         });
+
+
+
+
+
+        //     }, error => {
+        //         alert("startScan-ERROR---->" + JSON.stringify(error));
+        //     });
+        // });
 
         // ble.scan([], 5, device => {
         //     alert("ble-OK---->" + JSON.stringify(device));
