@@ -45,6 +45,12 @@ class App {
     onDeviceReady1() {
         document.getElementById('deviceready').classList.add('ready');
 
+        ble.startScan([], device => {
+            console.log("DONE---->" + JSON.stringify(device));
+        }, error => {
+            console.log("ERROR---->" + JSON.stringify(error));
+        });
+
         bluetoothle.discover(device => {
             console.log("bluetoothle-OK---->" + JSON.stringify(device));
         }, error => {
