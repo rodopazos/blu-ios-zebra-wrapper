@@ -31,7 +31,7 @@ class App {
                     });
                 }).catch(error => {
                     alert(JSON.stringify(error));
-                })
+                });
             }).catch(error => {
                 alert(JSON.stringify(error));
             });
@@ -57,12 +57,32 @@ class App {
                 bytePDFArray[i] = binaryPDF.charCodeAt(i);
             }
 
-            zebra.write(printers[0].serialNumber, binaryPDF, result => {
-                alert("printers-write---->" + JSON.stringify(result));
+            this._zebra.bluetoothConnect(printers[0].serialNumber).then(res => {
+                alert(JSON.stringify(res));
 
-            }, error => {
-                alert("printers-error---->" + JSON.stringify(error));
+                let base64PDF = this.getBase64PdfString();
+                let binaryPDF = atob(base64PDF);
+                let bytePDFArray = new Uint8Array(binaryPDF.length);
+
+
+                for (let i = 0; i < binaryPDF.length; i++) {
+                    bytePDFArray[i] = binaryPDF.charCodeAt(i);
+                }
+                this._zebra.writeBytes(bytePDFArray).then(res => {
+                    alert(JSON.stringify(res));
+                }).catch(error => {
+                    alert(JSON.stringify(error));
+                });
+            }).catch(error => {
+                alert(JSON.stringify(error));
             });
+
+            // zebra.write(printers[0].serialNumber, binaryPDF, result => {
+            //     alert("printers-write---->" + JSON.stringify(result));
+
+            // }, error => {
+            //     alert("printers-error---->" + JSON.stringify(error));
+            // });
         }, error => {
             this._connectedPrinters = [];
             reject(error);
