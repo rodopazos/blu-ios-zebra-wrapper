@@ -51,11 +51,19 @@ class App {
             alert("ERROR---->" + JSON.stringify(error));
         });
 
-        bluetoothle.discover(device => {
-            alert("bluetoothle-OK---->" + JSON.stringify(device));
-        }, error => {
-            alert("bluetoothle-ERROR---->" + JSON.stringify(error));
+        bluetoothle.initialize(device => {
+            alert("bluetoothle-initialize---->" + JSON.stringify(device));
+        }, {
+            "request": true,
+            "statusReceiver": false,
+            "restoreKey": "bluetoothleplugin"
         });
+
+        bluetoothle.retrieveConnected(device => {
+            alert("retrieveConnected-OK---->" + JSON.stringify(device));
+        }, error => {
+            alert("retrieveConnected-ERROR---->" + JSON.stringify(error));
+        }, []);
 
         ble.scan([], 5, device => {
             alert("ble-OK---->" + JSON.stringify(device));
