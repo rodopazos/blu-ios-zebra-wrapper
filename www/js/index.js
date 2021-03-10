@@ -13,7 +13,7 @@ class App {
         this._zebra.isBluetoothConnected().then(res => {
             alert("BluetoothConnected: " + res);
         }).catch(error => {
-            alert("BluetoothConnected: " + error);
+            alert("BluetoothConnected-error: " + error);
 
             this._zebra.getBluetoothList().then(res => {
                 alert("getBluetoothList: " + JSON.stringify(res));
