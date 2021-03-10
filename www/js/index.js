@@ -45,27 +45,50 @@ class App {
     onDeviceReady1() {
         document.getElementById('deviceready').classList.add('ready');
 
-        ble.startScan([], device => {
-            alert("DONE---->" + JSON.stringify(device));
-        }, error => {
-            alert("ERROR---->" + JSON.stringify(error));
-        });
+        zebra.scan(printers => {
+            alert("printers---->" + JSON.stringify(printers));
 
-        bluetoothle.initialize(device => {
-            alert("bluetoothle-initialize---->" + JSON.stringify(device));
+            let base64PDF = this.getBase64PdfString();
+            let binaryPDF = atob(base64PDF);
+            let bytePDFArray = new Uint8Array(binaryPDF.length);
 
-            bluetoothle.startScan(device => {
-                alert("startScan-OK---->" + JSON.stringify(device));
+
+            for (let i = 0; i < binaryPDF.length; i++) {
+                bytePDFArray[i] = binaryPDF.charCodeAt(i);
+            }
+
+            zebra.write(printers[0].serialNumber, bytePDFArray, result => {
+                alert("printers-write---->" + JSON.stringify(result));
+
             }, error => {
-                alert("startScan-ERROR---->" + JSON.stringify(error));
+                alert("printers-error---->" + JSON.stringify(error));
             });
+        }, error => {
+            this._connectedPrinters = [];
+            reject(error);
         });
 
-        ble.scan([], 5, device => {
-            alert("ble-OK---->" + JSON.stringify(device));
-        }, error => {
-            alert("ble-ERROR---->" + JSON.stringify(error));
-        });
+        // ble.startScan([], device => {
+        //     alert("DONE---->" + JSON.stringify(device));
+        // }, error => {
+        //     alert("ERROR---->" + JSON.stringify(error));
+        // });
+
+        // bluetoothle.initialize(device => {
+        //     alert("bluetoothle-initialize---->" + JSON.stringify(device));
+
+        //     bluetoothle.startScan(device => {
+        //         alert("startScan-OK---->" + JSON.stringify(device));
+        //     }, error => {
+        //         alert("startScan-ERROR---->" + JSON.stringify(error));
+        //     });
+        // });
+
+        // ble.scan([], 5, device => {
+        //     alert("ble-OK---->" + JSON.stringify(device));
+        // }, error => {
+        //     alert("ble-ERROR---->" + JSON.stringify(error));
+        // });
     }
 }
 

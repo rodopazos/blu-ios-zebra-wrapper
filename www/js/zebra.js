@@ -75,7 +75,7 @@ class Zebra {
                 resolve({ printerSerialNumber, result });
             }, error => {
                 reject({ printerSerialNumber, error });
-            })
+            });
         });
     }
 
