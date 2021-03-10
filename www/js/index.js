@@ -1,7 +1,7 @@
 class App {
     constructor() {
         this._zebra = new Zebra();
-        document.addEventListener('deviceready', this.onDeviceReady1.bind(this), false);
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     }
 
     get zebra() {
@@ -11,29 +11,33 @@ class App {
         document.getElementById('deviceready').classList.add('ready');
 
         this._zebra.isBluetoothConnected().then(res => {
-            alert(res);
-        }).catch(() => {
+            alert("BluetoothConnected: " + res);
+        }).catch(error => {
+            alert("BluetoothConnected: " + error);
+
             this._zebra.getBluetoothList().then(res => {
-                alert(JSON.stringify(res));
+                alert("getBluetoothList: " + JSON.stringify(res));
+
                 this._zebra.bluetoothConnect(res[0].address).then(res => {
+                    alert("bluetoothConnect: " + JSON.stringify(res));
+
                     let base64PDF = this.getBase64PdfString();
                     let binaryPDF = atob(base64PDF);
                     let bytePDFArray = new Uint8Array(binaryPDF.length);
-
 
                     for (let i = 0; i < binaryPDF.length; i++) {
                         bytePDFArray[i] = binaryPDF.charCodeAt(i);
                     }
                     this._zebra.writeBytes(bytePDFArray).then(res => {
-                        alert(JSON.stringify(res));
+                        alert("writeBytes: " + JSON.stringify(res));
                     }).catch(error => {
-                        alert(JSON.stringify(error));
+                        alert("writeBytes-error: " + JSON.stringify(error));
                     });
                 }).catch(error => {
-                    alert(JSON.stringify(error));
+                    alert("bluetoothConnect-error: " + JSON.stringify(error));
                 });
             }).catch(error => {
-                alert(JSON.stringify(error));
+                alert("getBluetoothList-error: " + JSON.stringify(error));
             });
         });
     }
