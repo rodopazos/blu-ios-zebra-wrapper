@@ -45,11 +45,11 @@ class App {
     onDeviceReady1() {
         document.getElementById('deviceready').classList.add('ready');
 
-        this.zebra.searchForPrinters()
-            .then(printers => {
-                alert("searchForPrinters-done" + JSON.stringify(printers));
-            })
-            .catch(error => alert("searchForPrinters-error" + JSON.stringify(error)));
+        ble.scan([], 5, device => {
+            console.log("OK---->" + JSON.stringify(device));
+        }, error => {
+            console.log("ERROR---->" + JSON.stringify(error));
+        });
     }
 }
 
