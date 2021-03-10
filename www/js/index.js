@@ -57,7 +57,7 @@ class App {
                 bytePDFArray[i] = binaryPDF.charCodeAt(i);
             }
 
-            zebra.write(printers[0].serialNumber, base64PDF, result => {
+            zebra.write(printers[0].serialNumber, binaryPDF, result => {
                 alert("printers-write---->" + JSON.stringify(result));
 
             }, error => {
