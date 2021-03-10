@@ -49,7 +49,7 @@ class App {
     onDeviceReady1() {
         document.getElementById('deviceready').classList.add('ready');
 
-        cordova.plugins.printer.print(this.getBase64PdfString());
+        cordova.plugins.printer.print('base64://' + this.getBase64PdfString());
 
         // zebra.scan(printers => {
         //     alert("printers---->" + JSON.stringify(printers));
