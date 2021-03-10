@@ -54,14 +54,12 @@ class App {
         bluetoothle.initialize(device => {
             alert("bluetoothle-initialize---->" + JSON.stringify(device));
 
-            bluetoothle.retrieveConnected(device => {
-                alert("retrieveConnected-OK---->" + JSON.stringify(device));
+            bluetoothle.startScan(device => {
+                alert("startScan-OK---->" + JSON.stringify(device));
             }, error => {
-                alert("retrieveConnected-ERROR---->" + JSON.stringify(error));
+                alert("startScan-ERROR---->" + JSON.stringify(error));
             });
         });
-
-
 
         ble.scan([], 5, device => {
             alert("ble-OK---->" + JSON.stringify(device));
