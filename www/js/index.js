@@ -58,11 +58,7 @@ class App {
                 alert("retrieveConnected-OK---->" + JSON.stringify(device));
             }, error => {
                 alert("retrieveConnected-ERROR---->" + JSON.stringify(error));
-            }, []);
-        }, {
-            "request": true,
-            "statusReceiver": false,
-            "restoreKey": "bluetoothleplugin"
+            });
         });
 
 
