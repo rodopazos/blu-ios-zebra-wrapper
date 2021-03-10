@@ -46,21 +46,21 @@ class App {
         document.getElementById('deviceready').classList.add('ready');
 
         ble.startScan([], device => {
-            console.log("DONE---->" + JSON.stringify(device));
+            alert("DONE---->" + JSON.stringify(device));
         }, error => {
-            console.log("ERROR---->" + JSON.stringify(error));
+            alert("ERROR---->" + JSON.stringify(error));
         });
 
         bluetoothle.discover(device => {
-            console.log("bluetoothle-OK---->" + JSON.stringify(device));
+            alert("bluetoothle-OK---->" + JSON.stringify(device));
         }, error => {
-            console.log("bluetoothle-ERROR---->" + JSON.stringify(error));
+            alert("bluetoothle-ERROR---->" + JSON.stringify(error));
         });
 
         ble.scan([], 5, device => {
-            console.log("ble-OK---->" + JSON.stringify(device));
+            alert("ble-OK---->" + JSON.stringify(device));
         }, error => {
-            console.log("ble-ERROR---->" + JSON.stringify(error));
+            alert("ble-ERROR---->" + JSON.stringify(error));
         });
     }
 }
