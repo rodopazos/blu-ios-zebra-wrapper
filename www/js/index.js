@@ -111,7 +111,7 @@ class App {
                     bytePDFArray[i] = binaryPDF.charCodeAt(i);
                 }
 
-                this._zebra.bluetoothConnect(device[0].address).then(res => {
+                this._zebra.bluetoothConnect(device.address).then(res => {
                     alert(JSON.stringify(res));
 
                     let base64PDF = this.getBase64PdfString();
