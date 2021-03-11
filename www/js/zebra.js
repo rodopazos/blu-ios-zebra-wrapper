@@ -69,42 +69,42 @@ class Zebra {
         return Promise.reject("Not connected printers");
     }
 
-    async base64PdfToPNG(base64PdfString, scale = 2.5) {
-        GlobalWorkerOptions.workerSrc = await import('pdfjs-dist/build/pdf.worker.entry');
+    // async base64PdfToPNG(base64PdfString, scale = 2.5) {
+    //     GlobalWorkerOptions.workerSrc = await import('pdfjs-dist/build/pdf.worker.entry');
 
-        return new Promise((resolve, reject) => {
-            let binaryPDF = atob(base64PdfString);
-            let loadingTask = getDocument({ data: binaryPDF });
+    //     return new Promise((resolve, reject) => {
+    //         let binaryPDF = atob(base64PdfString);
+    //         let loadingTask = getDocument({ data: binaryPDF });
 
-            loadingTask.promise.then(pdf => {
-                for (let index = 1; index <= pdf.numPages; index++) {
-                    pdf.getPage(index).then(page => {
-                        let viewport = page.getViewport({ scale: scale });
-                        let canvas = document.createElement("CANVAS");
-                        let context = canvas.getContext('2d');
+    //         loadingTask.promise.then(pdf => {
+    //             for (let index = 1; index <= pdf.numPages; index++) {
+    //                 pdf.getPage(index).then(page => {
+    //                     let viewport = page.getViewport({ scale: scale });
+    //                     let canvas = document.createElement("CANVAS");
+    //                     let context = canvas.getContext('2d');
 
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
+    //                     canvas.height = viewport.height;
+    //                     canvas.width = viewport.width;
 
-                        page.render({
-                            canvasContext: context,
-                            viewport: viewport
-                        }).promise.then(() => {
-                            let data = canvas.toDataURL('image/png');
-                            let bytes = this.base64PngToBytes(data);
-                            let result = this.bytesToHex(bytes);
+    //                     page.render({
+    //                         canvasContext: context,
+    //                         viewport: viewport
+    //                     }).promise.then(() => {
+    //                         let data = canvas.toDataURL('image/png');
+    //                         let bytes = this.base64PngToBytes(data);
+    //                         let result = this.bytesToHex(bytes);
 
-                            resolve({ pngData: result, size: bytes.length });
-                        }).catch(error => {
-                            reject(error);
-                        });
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }
-            }).catch(error => {
-                reject(error);
-            });
-        });
-    }
+    //                         resolve({ pngData: result, size: bytes.length });
+    //                     }).catch(error => {
+    //                         reject(error);
+    //                     });
+    //                 }).catch(error => {
+    //                     reject(error);
+    //                 });
+    //             }
+    //         }).catch(error => {
+    //             reject(error);
+    //         });
+    //     });
+    // }
 }
