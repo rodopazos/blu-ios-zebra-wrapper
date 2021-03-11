@@ -1,8 +1,8 @@
 /*
     Nedded Plugin:
         - https://github.com/adriangrana/cordova-zebra-printer.git
-        - https://github.com/don/BluetoothSerial
 */
+// import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 
 class Zebra {
     constructor() {
@@ -13,48 +13,26 @@ class Zebra {
         return this._connectedPrinters;
     }
 
-    get bluetoothConnection() {
-        return bluetoothSerial;
+    bytesToHex(bytes) {
+        let hex = [];
+        for (let i = 0; i < bytes.length; i++) {
+            let current = bytes[i] < 0 ? bytes[i] + 256 : bytes[i];
+
+            hex.push((current >>> 4).toString(16));
+            hex.push((current & 0xF).toString(16));
+        }
+        return hex.join("");
     }
 
-    getBluetoothList() {
-        return new Promise((resolve, reject) => {
-            bluetoothSerial.list(res => {
-                resolve(res);
-            }, () => {
-                reject(null);
-            });
-        });
-    }
+    base64PngToBytes(pngData) {
+        let replaceStr = "data:image/png;base64,"
+        let bytes = atob(pngData.replace(replaceStr, ""));
+        let byteArray = new Uint8Array(bytes.length);
 
-    bluetoothConnect(mac) {
-        return new Promise((resolve, reject) => {
-            bluetoothSerial.connect(mac, res => {
-                resolve(res);
-            }, error => {
-                reject(error);
-            });
-        });
-    }
-
-    writeBytes(data) {
-        return new Promise((resolve, reject) => {
-            bluetoothSerial.write(data, res => {
-                resolve(res);
-            }, error => {
-                reject(error);
-            });
-        });
-    }
-
-    isBluetoothConnected() {
-        return new Promise((resolve, reject) => {
-            bluetoothSerial.isConnected(() => {
-                resolve(true);
-            }, () => {
-                reject(false);
-            });
-        });
+        for (let i = 0; i < bytes.length; i++) {
+            byteArray[i] = bytes.charCodeAt(i);
+        }
+        return byteArray;
     }
 
     searchForPrinters() {
@@ -91,55 +69,42 @@ class Zebra {
         return Promise.reject("Not connected printers");
     }
 
-    buildTextCmd(scheme) {
-        return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^A${scheme.font}N,${scheme.fontHeight},${scheme.fontWidth}
-            ^FD${scheme.data}
-            ^FS
-        `;
-    }
+    async base64PdfToPNG(base64PdfString, scale = 2.5) {
+        GlobalWorkerOptions.workerSrc = await import('pdfjs-dist/build/pdf.worker.entry');
 
-    buildBlockTextCmd(scheme) {
-        return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^A${scheme.font}N,${scheme.fontHeight},${scheme.fontWidth}
-            ^FB${scheme.fontWidth},b,c,d,e
-            ^FD${scheme.data}
-            ^FS
-        `;
-    }
+        return new Promise((resolve, reject) => {
+            let binaryPDF = atob(base64PdfString);
+            let loadingTask = getDocument({ data: binaryPDF });
 
-    buildBarcodeCmd(scheme) {
-        return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^BC${scheme.orientation},${scheme.barHeight},N,N,N,N
-            ^FD${scheme.data}
-            ^FS
-        `;
-    }
+            loadingTask.promise.then(pdf => {
+                for (let index = 1; index <= pdf.numPages; index++) {
+                    pdf.getPage(index).then(page => {
+                        let viewport = page.getViewport({ scale: scale });
+                        let canvas = document.createElement("CANVAS");
+                        let context = canvas.getContext('2d');
 
-    buildBoxCmd(scheme) {
-        return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ^GB${scheme.boxWidth},${scheme.boxHeight},1,B,0
-            ^FS
-        `;
-    }
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
 
-    buildLineCmd(scheme) {
-        let gb = `^GB${scheme.size},${scheme.size},1,B,0`;
+                        page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise.then(() => {
+                            let data = canvas.toDataURL('image/png');
+                            let bytes = this.base64PngToBytes(data);
+                            let result = this.bytesToHex(bytes);
 
-        if (scheme.orientation === 'H') {
-            gb = `^GB${scheme.size},0,1,B,0`;
-        }
-        if (scheme.orientation === 'V') {
-            gb = `^GB0,${scheme.size},1,B,0`;
-        }
-        return `
-            ^FO${scheme.xOrigin},${scheme.yOrigin}
-            ${gb}
-            ^FS
-        `;
+                            resolve({ pngData: result, size: bytes.length });
+                        }).catch(error => {
+                            reject(error);
+                        });
+                    }).catch(error => {
+                        reject(error);
+                    });
+                }
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 }

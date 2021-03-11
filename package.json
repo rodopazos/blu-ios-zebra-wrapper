@@ -14,24 +14,14 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^9.0.0",
-    "cordova-plugin-ble-central": "^1.3.1",
-    "cordova-plugin-bluetoothle": "^6.3.0",
-    "cordova-plugin-printer": "^0.8.0",
     "cordova-plugin-whitelist": "^1.3.4",
-    "cordova-plugin-zbtprinter": "^1.1.9",
+    "pdfjs-dist": "^2.6.347",
     "cordova-zebra-printer": "git+https://github.com/adriangrana/cordova-zebra-printer.git"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-zebra-printer": {},
-      "cordova-plugin-bluetooth-serial": {},
-      "cordova-plugin-ble-central": {},
-      "cordova-plugin-bluetoothle": {},
-      "cordova-plugin-printer": {
-        "ANDROID_SUPPORT_V4_VERSION": "28.+"
-      },
-      "com.github.michael79bxl.zbtprinter": {}
+      "cordova-zebra-printer": {}
     },
     "platforms": [
       "ios",
