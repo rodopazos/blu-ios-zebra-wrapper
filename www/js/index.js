@@ -11,26 +11,26 @@ class App {
     onDeviceReady() {
         document.getElementById('deviceready').classList.add('ready');
 
-        this._zebra.searchForPrinters().then(printers => {
-            alert("searchForPrinters-printers: " + JSON.stringify(printers));
+        // this._zebra.searchForPrinters().then(printers => {
+        //     alert("searchForPrinters-printers: " + JSON.stringify(printers));
 
-            this._zebra.base64PdfToPNG(this.getBase64PdfString()).then(res => {
-                alert("base64PdfToPNG-res: " + JSON.stringify(res));
+        this._zebra.base64PdfToPNG(this.getBase64PdfString()).then(res => {
+            alert("base64PdfToPNG-res: " + JSON.stringify(res));
 
-                let cmd = `^XA~DYE:INFO,P,P,${res.size},,${res.data}^FO0,0^IME:INFO.PNG^XZ`;
+            let cmd = `^XA~DYE:INFO,P,P,${res.size},,${res.data}^FO0,0^IME:INFO.PNG^XZ`;
 
-                this._zebra.sendCommand(printers[0].serialNumber, cmd).then(result => {
-                    alert("sendCommand-result: " + JSON.stringify(result));
-                }).catch(error => {
-                    alert("sendCommand-error: " + JSON.stringify(error));
-                });
+            this._zebra.sendCommand(printers[0].serialNumber, cmd).then(result => {
+                alert("sendCommand-result: " + JSON.stringify(result));
             }).catch(error => {
-                alert("base64PdfToPNG-error: " + JSON.stringify(error));
+                alert("sendCommand-error: " + JSON.stringify(error));
             });
-
         }).catch(error => {
-            alert("searchForPrinters-error: " + JSON.stringify(error));
+            alert("base64PdfToPNG-error: " + JSON.stringify(error));
         });
+
+        // }).catch(error => {
+        //     alert("searchForPrinters-error: " + JSON.stringify(error));
+        // });
     }
 
     getBase64PdfString() {

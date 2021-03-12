@@ -2,9 +2,9 @@
     Nedded Plugin:
         - https://github.com/adriangrana/cordova-zebra-printer.git
 */
-
 class Zebra {
     constructor() {
+        this._pdfjsLib = window['pdfjs-dist/build/pdf'];
         this._connectedPrinters = [];
     }
 
@@ -69,12 +69,9 @@ class Zebra {
     }
 
     async base64PdfToPNG(base64PdfString, scale = 2.5) {
-        // PDFJS.workerSrc = 'pdf.worker.js';
-        // <script src="js/pdf.worker.js"></script>
-
         return new Promise((resolve, reject) => {
             let binaryPDF = atob(base64PdfString);
-            let loadingTask = PDFJS.getDocument({ data: binaryPDF });
+            let loadingTask = this._pdfjsLib.getDocument({ data: binaryPDF });
 
             loadingTask.promise.then(pdf => {
                 for (let index = 1; index <= pdf.numPages; index++) {
