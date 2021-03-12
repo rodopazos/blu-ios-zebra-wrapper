@@ -91,7 +91,7 @@ class Zebra {
                             let bytes = this.base64PngToBytes(data);
                             let result = this.bytesToHex(bytes);
 
-                            resolve({ pngData: result, size: bytes.length });
+                            resolve({ data: result, size: bytes.length });
                         }).catch(error => {
                             reject(error);
                         });
