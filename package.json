@@ -13,7 +13,6 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "cordova-android": "^9.0.0",
     "cordova-plugin-whitelist": "^1.3.4",
     "cordova-zebra-printer": "git+https://github.com/adriangrana/cordova-zebra-printer.git"
   },
@@ -23,8 +22,7 @@
       "cordova-zebra-printer": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "ios"
     ]
   },
   "dependencies": {
